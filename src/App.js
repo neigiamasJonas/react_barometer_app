@@ -32,8 +32,6 @@ useEffect(() => {
 }, [query, units])
 
 
-// fetch("https://api.openweathermap.org/data/3.0/onecall?lat=54.6892&lon=25.2798&exclude=alert&appid=1b8bb04b1b223e343e9f05089e88251e").then(res => console.log(res.json()))
-
   return (
     
     <div className="mx-auto max-w-screen-md mt-4 py-2 px-24 bg-blue-400">
