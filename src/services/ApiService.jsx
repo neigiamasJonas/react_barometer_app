@@ -28,7 +28,6 @@ const formatCurrentData = (data) => {
         sys: {country, sunrise, sunset},
         name,
 
-
     } = data
 
     const {main: info, description, icon} = weather[0];
@@ -38,18 +37,20 @@ const formatCurrentData = (data) => {
 
 // 5 day forecast
 const formatForcastData = (data) => {
-    let {timezone, daily} = data;
+    let {timezone, daily, current: {dt: currentTime}} = data;
+
 
     daily = daily.slice(1, 6).map(d => {
         return {
             time: formatToLocalTime(d.dt, timezone, 'ccc'),
             temp: d.temp.day,
             pressure: d.pressure,
-            icon: d.weather[0].icon,
+            icon: d.weather[0].icon
         }
     })
-    return {timezone, daily}
+    return {timezone, daily, currentTime}
 }
+
 
 // current date -1
 const formatHistoryData = (info) => {
@@ -59,7 +60,8 @@ const formatHistoryData = (info) => {
         return {
             time: formatToLocalTime(d.dt, timezone, 'ccc, d LLL'),
             temp: d.temp,
-            pressure: d.pressure
+            pressure: d.pressure,
+            icon: d.weather[0].icon
         }
     })
     return {timezone, data};
@@ -74,7 +76,8 @@ const formatHistoryData2 = (info) => {
         return {
             time: formatToLocalTime(d.dt, timezone, 'ccc, d LLL'),
             temp: d.temp,
-            pressure: d.pressure
+            pressure: d.pressure,
+            icon: d.weather[0].icon
         }
     })
     return {timezone, data2};
@@ -91,27 +94,30 @@ const getFormattedData = async (searchParams) => {
         const formattedForecastData = await getData("3.0/onecall", {
             lat,
             lon,
-            units: searchParams.units,
-            exclude: 'current, minutely, alerts'
+            units: 'metric',
+            exclude: 'minutely, hourly, alerts'
         }).then(formatForcastData);
+
 
         // current date -1
         const formatedHistoryData = await getData("3.0/onecall/timemachine", {
             lat,
             lon,
+            units: 'metric',
             dt: day1,
         }).then(formatHistoryData);
         // current date -2
         const formatedHistoryData2 = await getData("3.0/onecall/timemachine", {
             lat,
             lon,
+            units: 'metric',
             dt: day2,
         }).then(formatHistoryData2);
 
 
         return {...formattedCurrentData, ...formattedForecastData, ...formatedHistoryData, ...formatedHistoryData2};
     } catch (error) {
-        console.error("Error: formattedCurrentData")
+        console.error("Error: getFormattedData")
         return error;
     }
 }

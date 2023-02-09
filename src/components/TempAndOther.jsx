@@ -1,22 +1,22 @@
 import React from 'react'
 import { UilTemperatureHalf, UilTear, UilWindsock, UilSun, UilSunset } from '@iconscout/react-unicons'
 
-function TempAndOther() {
+function TempAndOther({weatherData: {pressure, description, temp, feels_like}}) {
   return (
     <div>
         <div className="flex flex-row justify-around items-center text-white mt-2 py-2">
             <div>
-                <p>Presure scale</p>
+                <p>{`Pressure now: ${pressure} hPa`}</p>
             </div>
             <div className="flex flex-col justify-center items-center">
-                <p className="text-sm font-extralight">descriptionnnnnnnnnnnnn</p>
-                <p className="text-4xl mt-2">25°</p>
+                <p className="text-sm font-extralight">{description}</p>
+                <p className="text-4xl mt-2">{Math.round(temp * 10) / 10}°</p>
             </div>      
             <div className="flex flex-col space-y-1 pt-3">
                 <div className="flex font-extralight text-xs items-center justify-start">
                     <UilTemperatureHalf size="12" className="mr-1" />
-                    <p className="mr-1">Real feel:</p>
-                    <span className="font-medium">20°</span>
+                    <p className="mr-1">Feels like: </p>
+                    <span className="font-medium">{Math.round(feels_like * 10) / 10}°</span>
                 </div>
                 <div className="flex font-extralight text-xs items-center justify-start">
                     <UilTear size="12" className="mr-1" />
