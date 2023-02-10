@@ -43,8 +43,8 @@ useEffect(() => {
         <div>
           <TimeLocation weatherData={weatherData}/>
           <TempAndOther weatherData={weatherData}/>
-          <Forecast />
-          <History />
+          <Forecast daily={weatherData.daily}/>
+          <History hist={weatherData}/>
         </div>
       }
 
