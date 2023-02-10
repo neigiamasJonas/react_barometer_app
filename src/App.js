@@ -8,35 +8,45 @@ import TempAndOther from './components/TempAndOther';
 import TimeLocation from './components/TimeLocation';
 import getFormattedData from './services/ApiService';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
 
 // use states
-const [query, setQuery] = useState({q: "Berlin"});
-const [units, setUnits] = useState('metric');
+const [query, setQuery] = useState({q: "Vilnius"});
 const [weatherData, setWeatherData] = useState(null);
+const units = "metric"
 
 
 // use effect
 
 useEffect(() => {
   const fetchData = async () => {
-    await getFormattedData({...query, units}).then((data) => {
-      setWeatherData(data)
-      console.log(data);
-    });
-    
+
+    const message = query.q ? query.q : "Current Location"
+
+    toast.info("Featching weather data for " + message)
+
+      await getFormattedData({...query, units}).then((data) => {   
+          setWeatherData(data)
+          console.log(data);
+      });
+
   };
   
   fetchData();
 }, [query, units])
 
 
+
+
   return (
     
     <div className="mx-auto max-w-screen-md mt-4 py-2 px-24 bg-blue-400">
-      <CityButtons />
-      <Inputs />
+      <CityButtons setQuery={setQuery}/>
+      <Inputs setQuery={setQuery}/>
 
       {weatherData
       && 
@@ -48,6 +58,7 @@ useEffect(() => {
         </div>
       }
 
+    <ToastContainer autoClose={2000} newestOnTop={true}/>
     </div>
   
   );

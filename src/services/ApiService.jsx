@@ -1,19 +1,15 @@
 import formatToLocalTime from '../functions/TimeFormat'
 
-
-
 const API_KEY = "1b8bb04b1b223e343e9f05089e88251e";
 const BASE_URL = "https://api.openweathermap.org/data";
 
-// https://api.openweathermap.org/data
-// /3.0/onecall?lat=54.6892&lon=25.2798&exclude=alert&appid=1b8bb04b1b223e343e9f05089e88251e
 
 const getData = async (infoType, searchParams) => {
 
     const url = new URL(BASE_URL + "/" + infoType);
     url.search = new URLSearchParams({...searchParams, appid:API_KEY})
 
-    return fetch(url).then(response => response.json());
+    return await fetch(url).then(response => response.json()).catch(error => console.log(error));
 };
 
 
