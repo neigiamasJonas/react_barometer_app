@@ -23,7 +23,6 @@ function Inputs({setQuery}) {
               onKeyDown={e => {
                 if (e.key === "Enter") {handleSearch()}
               }}
-              
               >
             </input>
             <UilSearch size={30} className="text-white cursor-pointer transition ease-out hover:scale-125" onClick={handleSearch} />

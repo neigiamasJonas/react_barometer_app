@@ -30,9 +30,9 @@ useEffect(() => {
     toast.info("Featching weather data for " + message)
 
       await getFormattedData({...query, units}).then((data) => {   
-          setWeatherData(data)
-          console.log(data);
-      });
+        setWeatherData(data)
+        console.log(data);
+    });
 
   };
   

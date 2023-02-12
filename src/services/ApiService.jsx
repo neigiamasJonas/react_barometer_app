@@ -1,4 +1,6 @@
 import formatToLocalTime from '../functions/TimeFormat'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const API_KEY = "1b8bb04b1b223e343e9f05089e88251e";
 const BASE_URL = "https://api.openweathermap.org/data";
@@ -9,7 +11,15 @@ const getData = async (infoType, searchParams) => {
     const url = new URL(BASE_URL + "/" + infoType);
     url.search = new URLSearchParams({...searchParams, appid:API_KEY})
 
-    return await fetch(url).then(response => response.json()).catch(error => console.log(error));
+    return await fetch(url).then((response) => {
+        if (response.ok) {
+            return response.json()
+        } else if (response.status === 404){
+            return Promise.reject('error 404') && window.location.reload();
+        } else {
+          return Promise.reject('some other error: ' + response.status) && window.location.reload();
+        }
+    })
 };
 
 
